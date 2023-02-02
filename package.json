@@ -1,0 +1,81 @@
+{
+  "name": "GoFundHer-admin-panel",
+  "version": "2.1.6",
+  "description": "Admin panel for GoFundHer.",
+  "author": "Łukasz Holeczek",
+  "homepage": "http://3.13.224.41/admin",
+  "copyright": "Copyright 2019 Chapter247 Infotech",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sonu247/hog-works-admin.git"
+  },
+  "dependencies": {
+    "@coreui/coreui": "^4.1.0",
+    "@coreui/icons": "^2.1.0",
+    "@coreui/icons-react": "^2.0.1",
+    "@coreui/react": "^4.1.2",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "chart.js": "^3.7.1",
+    "classnames": "^2.2.6",
+    "core-js": "^2.6.5",
+    "file-saver": "^2.0.5",
+    "flag-icon-css": "^3.3.0",
+    "font-awesome": "^4.7.0",
+    "js-object-validation": "1.0.9",
+    "moment-timezone": "^0.5.26",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.8.3",
+    "react": "^17.0.0",
+    "react-app-polyfill": "^0.2.2",
+    "react-chartjs-2": "^4.0.1",
+    "react-dom": "^17.0.0",
+    "react-progressbar": "^15.4.1",
+    "react-read-more-less": "^0.1.6",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.2.1",
+    "react-toastify": "^5.0.0-rc.3",
+    "reactstrap": "^9.0.1",
+    "sass": "^1.49.4",
+    "simple-line-icons": "^2.4.1",
+    "simplebar-react": "^2.3.6",
+    "sweetalert2": "^8.7.0"
+  },
+  "devDependencies": {
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "enzyme": "^3.9.0",
+    "react-scripts": "^5.0.0",
+    "react-test-renderer": "^17.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build:prod": "react-scripts build",
+    "test": "react-scripts test",
+    "test:cov": "react-scripts test --coverage",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "eject": "react-scripts eject"
+  },
+  "bugs": {
+    "url": "https://github.com/sonu247/hog-works-admin/issues"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 9",
+    "not op_mini all"
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!**/*index.js",
+      "!src/serviceWorker.js",
+      "!src/polyfill.js"
+    ]
+  }
+}
