@@ -24,14 +24,17 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
+
   .main {
     .container-fluid {
       padding: 0 10px;
     }
   }
+
   .brand-logo img {
     max-width: 135px;
   }
+
   .brand-logo {
     display: inline-block;
     min-width: 190px;
@@ -42,20 +45,25 @@ body {
     justify-content: center;
     align-items: center;
   }
+
   .min-height650 {
     min-height: 650px;
   }
+
   .height17 {
     min-height: 17px;
   }
+
   .footer {
     background: #f1f1f1;
   }
+
   .label {
     margin-bottom: 0rem;
     font-weight: 600;
     font-size: 14px;
   }
+
   .breadcrum-block {
     .breadcrumb {
       background-color: transparent;
@@ -65,20 +73,25 @@ body {
       font-size: 14px;
     }
   }
+
   .filter-block {
     padding: 0px 0;
     margin-bottom: 15px;
     border-radius: 0.25rem;
   }
+
   .donation-list-header {
     display: flex;
     justify-content: space-between;
+
     .filter-block {
       width: 100%;
     }
+
     .export-block {
       align-items: center;
       margin-top: 15px;
+
       button {
         background: #f384ab;
         color: #fff;
@@ -87,38 +100,47 @@ body {
       }
     }
   }
+
   .badge {
     text-transform: capitalize;
   }
+
   .form-control {
     border-color: #dddddd;
   }
+
   .card {
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       h4 {
         margin: 0px;
       }
     }
   }
+
   th,
   td {
     font-size: 14px;
   }
+
   .table th,
   .table td {
     vertical-align: middle;
   }
+
   .table td {
     font-size: 13px;
   }
+
   .table-checkbox-wrap {
     position: relative;
     width: 100%;
     height: 100%;
   }
+
   .table .checkboxli {
     width: 30px;
     position: relative;
@@ -127,6 +149,7 @@ body {
     left: 0;
     top: 0px;
   }
+
   .table-checkbox-wrap select.commonstatus {
     height: 28px;
     top: -4px;
@@ -142,6 +165,7 @@ body {
     padding: 0;
     padding-left: 10px;
   }
+
   .coloum-checkbox {
     left: 0px;
   }
@@ -169,18 +193,20 @@ body {
     padding: 0px 5px 5px 0px;
   }
 
-  
+
   /* ============ Start Checkbox css =============== */
-  .checkbox-input input[type='checkbox'] + label {
+  .checkbox-input input[type='checkbox']+label {
     display: inline-block;
     margin: 0;
     cursor: pointer;
     padding: 0.2em;
   }
+
   .checkbox-input input[type='checkbox'] {
     display: none;
   }
-  .checkbox-input input[type='checkbox'] + label:before {
+
+  .checkbox-input input[type='checkbox']+label:before {
     // content: '\f00c';
     border: 1px solid #000;
     // font-family: 'Font Awesome 5 Free';
@@ -199,28 +225,34 @@ body {
     transition: 0.2s;
     line-height: 19px;
   }
-  .checkbox-input input[type='checkbox'] + label:active:before {
+
+  .checkbox-input input[type='checkbox']+label:active:before {
     transform: scale(0);
   }
-  .checkbox-input input[type='checkbox']:checked + label:before {
+
+  .checkbox-input input[type='checkbox']:checked+label:before {
     background-color: #f485ab;
     border-color: #f485ab;
     color: #fff;
   }
-  .checkbox-input input[type='checkbox']:disabled + label:before {
+
+  .checkbox-input input[type='checkbox']:disabled+label:before {
     transform: scale(1);
     border-color: #aaa;
   }
-  .checkbox-input input[type='checkbox']:checked:disabled + label:before {
+
+  .checkbox-input input[type='checkbox']:checked:disabled+label:before {
     transform: scale(1);
     background-color: #bfb;
     border-color: #bfb;
   }
+
   .term-check-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .status-btn-wrap {
     .btn {
       padding: 6px 12px;
@@ -228,6 +260,7 @@ body {
       font-size: 12px;
     }
   }
+
   .action-btn-wrap {
     .btn {
       width: 25px;
@@ -239,10 +272,12 @@ body {
       color: #232323;
       background: #dcdcdc;
       margin: 0 3px;
+
       .fa {
         line-height: 1;
       }
     }
+
     .red {
       color: red;
     }
@@ -252,6 +287,7 @@ body {
 /* Tooltip container */
 .custom-tooltip {
   position: relative;
+
   .custom-tooltiptext {
     visibility: hidden;
     width: auto;
@@ -266,6 +302,7 @@ body {
     left: 50%;
     transform: translate(-50%, 50%);
     white-space: nowrap;
+
     &:before {
       content: '';
       position: absolute;
@@ -278,31 +315,38 @@ body {
       border-color: black transparent transparent transparent;
     }
   }
+
   &:hover {
     .custom-tooltiptext {
       visibility: visible;
     }
   }
+
   .tooltip-left {
     top: -45px;
     // left: 30%;
     left: -50px;
+
     &:before {
       // left: 65%;
       left: 90%;
     }
   }
+
   .tooltip-left-project {
     top: -45px;
     left: 15%;
+
     &:before {
       left: 70%;
     }
   }
+
   .left-tool-tip {
     left: -120%;
     top: 50%;
     transform: translate(-50%, -50%);
+
     &:before {
       left: 103%;
       top: 50%;
@@ -310,9 +354,11 @@ body {
     }
   }
 }
+
 .view-link {
   cursor: pointer;
 }
+
 .paypal-detail {
   .detail-wrap {
     .view-link {
@@ -320,6 +366,7 @@ body {
     }
   }
 }
+
 .login-content {
   h1 {
     color: #000;
@@ -329,22 +376,27 @@ body {
     padding-bottom: 10px;
   }
 }
+
 .link-tile {
   color: #f385ab;
+
   a {
     text-decoration: none;
     color: #f385ab;
   }
+
   &:hover a {
     text-decoration: none;
     color: #ff367d;
   }
 }
+
 body {
   .total-projects.card {
     background-color: #eec0c6;
     background-image: linear-gradient(315deg, #eec0c6 0%, #e58c8a 74%);
   }
+
   .total-earning {
     background-color: #e899dc;
     background-image: linear-gradient(315deg, #e899dc 0%, #d387ab 74%);
@@ -353,6 +405,7 @@ body {
   .total-user.card {
     background-image: linear-gradient(326deg, #ff669c 0%, #ffa69e 74%);
   }
+
   .user-section {
     // border: 2px solid #f385ab;
     // margin-right: 30px;
@@ -368,14 +421,17 @@ body {
     margin-right: 10px;
     border-radius: 0px;
     padding: 15px 10px 15px 15px;
+
     span {
       padding: 0px 5px;
     }
   }
+
   .btn {
     border-radius: 35px;
     padding: 5px 20px;
   }
+
   .btn.theme-btn {
     font-family: 'PT Sans', sans-serif;
     font-weight: 400;
@@ -385,21 +441,25 @@ body {
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
     border-radius: 35px;
+
     &.action-btn {
       padding: 4px 6px;
       text-align: center;
       border-radius: 5px;
     }
   }
+
   .form-control:focus {
     box-shadow: none;
     border-color: #f385ab;
   }
+
   .btn-black {
     background: #000;
     border-color: #000;
     color: #fff;
   }
+
   .btn-black:hover {
     background: #2e2e2e;
     border-color: #2e2e2e;
@@ -409,14 +469,17 @@ body {
   .page-item .page-link {
     color: #000;
   }
+
   .page-item.active .page-link {
     background-color: #f385ab;
     border-color: #f385ab;
   }
+
   .page-link:focus {
     box-shadow: none;
   }
 }
+
 .dropdown-item.active i,
 .dropdown-item:active i,
 .dropdown-item:focus i {
@@ -430,18 +493,22 @@ body {
   outline: none;
   color: #fff;
 }
+
 .theme-side-baar {
   background: #fff;
   color: #000;
+
   .nav-link.active {
     background: #ffffff;
   }
+
   .nav-link.active,
   .sidebar .nav-link:hover {
     background: #ff669c;
     color: #fff;
     font-weight: bold;
   }
+
   .nav-link:hover {
     background: #f385ab;
     color: #fff;
@@ -450,17 +517,21 @@ body {
   .nav-link .nav-icon {
     color: #000;
   }
+
   .nav-link.active .nav-icon {
     color: #fff;
   }
+
   .nav-link {
     border-bottom: 1px solid #eeee;
     border-right: 1px solid #eeee;
     color: #000;
   }
+
   .sidebar-minimizer {
     background-color: #f385ab;
   }
+
   .sidebar-minimizer::before {
     background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='%23fff' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -468,50 +539,63 @@ body {
     background-size: 12.5px;
     transition: 0.3s;
   }
+
   &.sidebar .nav-link.active .nav-icon {
     color: #fff;
   }
+
   .sidebar-minimizer:hover {
     background-color: #000;
   }
 }
+
 .sidebar-minimized .sidebar .sidebar-minimizer {
   background-color: #f385ab;
 }
-.sidebar-minimized .sidebar .nav-item:hover > .nav-link {
+
+.sidebar-minimized .sidebar .nav-item:hover>.nav-link {
   background-color: #f385ab;
 }
+
 .sidebar-minimized .sidebar .sidebar-minimizer:hover {
   background-color: #000;
 }
+
 .card-header {
   h4 {
     color: #000;
   }
+
   .fa {
     color: #f385ab;
   }
 }
+
 .breadcrumb {
   margin-bottom: 10px;
+
   .breadcrumb-item {
     font-weight: bold;
+
     a {
       color: #f385ab;
     }
   }
 }
+
 .table-theme-wrap {
   .link-title {
     text-transform: lowercase;
     color: #f385ab;
     cursor: pointer;
+
     &:hover,
     &:focus,
     &:active {
       color: #ff4485;
     }
   }
+
   text-align: center;
 
   thead {
@@ -519,27 +603,33 @@ body {
       background: #f5f5f5;
     }
   }
+
   tbody {
     tr {
       td {
         *::first-letter {
           text-transform: uppercase;
         }
+
         font-size: 13px;
       }
+
       &:hover {
         td {
           background: #f3f3f3;
         }
       }
     }
+
     .active-btn {
       background-color: #0771f5;
       padding: 2px 10px;
     }
+
     .paid-btn-wrap {
       cursor: default;
     }
+
     .deactive-btn {
       background: #a9a9a900;
       border-color: #848484;
@@ -556,23 +646,28 @@ body {
     align-items: center;
     display: flex;
     margin: auto;
+
     img {
       max-width: 100%;
       max-height: 100%;
     }
   }
+
   .detail-wrap {
     .profile-title {
       font-weight: bold;
       font-size: 16px;
     }
+
     .user-title {
       font-size: 14px;
     }
   }
+
   [class*='-title'] i {
     margin-right: 5px;
   }
+
   [class*='-title'] span:first-child {
     width: 16px;
   }
@@ -582,21 +677,25 @@ body {
     font-weight: 600;
     font-size: 14px;
   }
+
   [class*='-title'] {
     display: flex;
     padding: 2px 0px;
     align-items: flex-start;
   }
+
   .theme-action-btn-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
+
 .table-bordered th,
 .table-bordered td {
   border: 1px solid #e4e4e4;
 }
+
 .table.table-bordered thead th {
   vertical-align: bottom;
   border-bottom: 1px solid #e4e4e4;
@@ -609,25 +708,31 @@ body {
     align-items: center;
     justify-content: space-between;
   }
+
   span.amount-value {
     font-size: 38px;
     line-height: 40px;
   }
+
   .number-heading {
     font-size: 22px;
   }
+
   .view-list-wrap {
     position: absolute;
     right: 0px;
     bottom: 24px;
   }
 }
+
 .link-title *::first-letter {
   text-transform: lowercase !important;
 }
+
 .Toastify__toast.Toastify__toast--error {
   display: none;
 }
+
 .Toastify__toast.Toastify__toast--error:last-child {
   display: flex;
 }
@@ -636,13 +741,16 @@ body {
   cursor: pointer;
   text-decoration: none;
   color: #000;
+
   &:hover {
     color: #d43636;
   }
+
   a {
     text-decoration: none;
   }
 }
+
 .theme-text {
   color: #ff669c;
 }
@@ -652,6 +760,7 @@ body {
     height: 0.8em;
     background-color: #dbdbdb;
   }
+
   .progress-bar {
     background-color: #f8669c;
     max-width: 100%;
@@ -661,6 +770,7 @@ body {
 .donation-raised-price {
   margin-top: 26px;
 }
+
 .tooltip {
   line-height: 1.2;
   font-size: 12px;
@@ -669,28 +779,34 @@ body {
 .empty-search-section {
   width: 100%;
   flex-flow: column;
+
   .empty-img {
     max-width: 125px;
     margin: auto;
+
     img {
       width: 100%;
     }
   }
+
   .empty-text p {
     font-size: 18px;
     margin-top: 10px;
     text-align: center;
   }
 }
+
 .title-with-close .modal-title {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .paypal-detail-block span {
   width: 50%;
   margin-bottom: 5px;
+
   &.paypal-amount-heading {
     font-weight: 600;
     text-transform: capitalize;
@@ -698,47 +814,57 @@ body {
     max-width: 160px;
   }
 }
+
 .paypal-form-details {
   label {
     font-weight: 600;
   }
+
   select {
     text-transform: capitalize;
   }
 }
+
 .mandatory {
   color: red;
 }
+
 .paypal-detail-wrap {
   padding: 10px;
   border: 1px solid #ccc;
   background: #fafafa;
 }
+
 .pay-pal-btn {
   background: #ff669c;
   color: #fff;
+
   &:hover {
     color: #fff;
   }
 }
+
 .paypal-detail-block {
   display: flex;
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
 
 /* ============ Start Checkbox css =============== */
-.checkbox-input input[type='checkbox'] + label {
+.checkbox-input input[type='checkbox']+label {
   display: inline-block;
   margin: 0;
   cursor: pointer;
   padding: 0.2em;
 }
+
 .checkbox-input input[type='checkbox'] {
   display: none;
 }
-.checkbox-input input[type='checkbox'] + label:before {
+
+.checkbox-input input[type='checkbox']+label:before {
   content: '\f00c';
   border: 1px solid #000;
   font-family: 'Font Awesome 5 Free';
@@ -754,26 +880,40 @@ body {
   transition: 0.2s;
   line-height: 19px;
 }
-.checkbox-input input[type='checkbox'] + label:active:before {
+
+.checkbox-input input[type='checkbox']+label:active:before {
   transform: scale(0);
 }
-.checkbox-input input[type='checkbox']:checked + label:before {
+
+.checkbox-input input[type='checkbox']:checked+label:before {
   background-color: #f485ab;
   border-color: #f485ab;
   color: #fff;
 }
-.checkbox-input input[type='checkbox']:disabled + label:before {
+
+.checkbox-input input[type='checkbox']:disabled+label:before {
   transform: scale(1);
   border-color: #aaa;
 }
-.checkbox-input input[type='checkbox']:checked:disabled + label:before {
+
+.checkbox-input input[type='checkbox']:checked:disabled+label:before {
   transform: scale(1);
   background-color: #bfb;
   border-color: #bfb;
 }
+
 .term-check-wrap {
   display: flex;
   align-items: center;
 }
 
 /* ============ End Checkbox css =============== */
+
+.avatar-img {
+  width: 64px;
+  height: 64px;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}

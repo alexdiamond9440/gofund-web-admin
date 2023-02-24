@@ -34,8 +34,9 @@ import {
   CTableHead,
   CTableRow,
   CTableHeaderCell,
-  CTable, 
-  CBadge} from '@coreui/react';
+  CTable,
+  CBadge
+} from '@coreui/react';
 class DonationsViaPaypal extends Component {
   constructor(props) {
     super(props);
@@ -62,6 +63,8 @@ class DonationsViaPaypal extends Component {
       category: '',
       open: false,
       errors: {},
+      cur_order_field: 'createdAt',
+      cur_order_dir: 'desc'
     };
   }
 
@@ -88,7 +91,7 @@ class DonationsViaPaypal extends Component {
 
     await this.props.history.push(
       `?search=${this.state.search}&category=${this.state.category}&searchByStatus=${this.state.searchByStatus}&searchPaymentBy=${this.state.searchPaymentBy}`,
-      );
+    );
     this.getDonationsViaPaypal();
   };
 
@@ -104,7 +107,7 @@ class DonationsViaPaypal extends Component {
 
     await this.props.history.push(
       `?search=${this.state.search}&category=${this.state.category}&searchByStatus=${this.state.searchByStatus}&searchPaymentBy=${this.state.searchPaymentBy}`,
-      );
+    );
     this.getDonationsViaPaypal();
   };
 
@@ -123,7 +126,7 @@ class DonationsViaPaypal extends Component {
       this.getDonationsViaPaypal();
     });
 
-   
+
   };
 
   handleSelected = async page => {
@@ -310,7 +313,7 @@ class DonationsViaPaypal extends Component {
         searchPaymentBy: parsed.searchPaymentBy,
       });
     }
-    
+
     if (parsed.searchByStatus) {
       await this.setState({
         searchByStatus: parsed.searchByStatus,
@@ -320,7 +323,7 @@ class DonationsViaPaypal extends Component {
   };
 
   getDonationsViaPaypal = async e => {
-    const { selectedPage, limit, search, searchByStatus, searchPaymentBy } = this.state;
+    const { selectedPage, limit, search, searchByStatus, searchPaymentBy, cur_order_field, cur_order_dir } = this.state;
 
     const res = await new ApiHelper().FetchFromServer(
       ApiRoutes.GET_DONATIONS.service,
@@ -333,6 +336,8 @@ class DonationsViaPaypal extends Component {
         search,
         searchPaymentBy,
         searchByStatus,
+        order_field: cur_order_field,
+        order_dir: cur_order_dir
       },
     );
 
@@ -372,6 +377,42 @@ class DonationsViaPaypal extends Component {
       });
     }
   };
+
+  renderSort = (field) => {
+    if (this.state.cur_order_field == field) {
+      if (this.state.cur_order_dir == 'asc') {
+        return (<i className='fa fa-sort-asc' />);
+      } else {
+        return (<i className='fa fa-sort-desc' />);
+      }
+    } else
+      return (<i className='fa fa-sort' />)
+  }
+
+  onSort = (e) => {
+
+    let field = e.target.getAttribute('data-field');
+
+    if (field == null || field == undefined) {
+      field = e.target.parentNode.getAttribute('data-field');
+    }
+
+    let dir = 'asc';
+    if (this.state.cur_order_field == field) {
+      if (this.state.cur_order_dir == 'asc')
+        dir = 'desc';
+      else
+        dir = 'asc';
+    }
+
+    this.setState({
+      cur_order_field: field,
+      cur_order_dir: dir
+    });
+
+    setTimeout(() => { this.getDonationsViaPaypal(); }, 50);
+
+  }
 
   render() {
     const {
@@ -515,14 +556,63 @@ class DonationsViaPaypal extends Component {
                   <CTableRow>
                     <CTableHeaderCell>S.no</CTableHeaderCell>
                     <CTableHeaderCell scope="col" className='justify-content-center'>Fundraiser Details</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='text-left'>Project</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='text-left'>Profile</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >Amount</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >Platform fee</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >Transfer Amount</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >Payment Date</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >Payment By</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='justify-content-center'>Status</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-left'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='project'>
+                        <div>Project</div>
+                        <div>
+                          {this.renderSort('project')}
+                        </div>
+                      </div>
+                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-left'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='profile'>
+                        <div>Profile</div>
+                        <div>
+                          {this.renderSort('profile')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" >
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='amount'>
+                        <div>Amount</div>
+                        <div>
+                          {this.renderSort('amount')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" >
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='website_amount'>
+                        <div>Platform fee</div>
+                        <div>
+                          {this.renderSort('website_amount')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" >
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='transferred_amount'>
+                        <div>Transfer Amount</div>
+                        <div>
+                          {this.renderSort('transferred_amount')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" >
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='createdAt'>
+                        <div>Payment Date</div>
+                        <div>
+                          {this.renderSort('createdAt')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" >
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payment_by'>
+                        <div>Payment By</div>
+                        <div>
+                          {this.renderSort('payment_by')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='justify-content-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payment_status'>
+                        <div>Status</div>
+                        <div>
+                          {this.renderSort('payment_status')}
+                        </div>
+                      </div></CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -534,200 +624,200 @@ class DonationsViaPaypal extends Component {
                     </CTableRow>
                   )}
                   {!isLoading && donationList?.map((item, index) => {
-                      return (
-                        <CTableRow key={index}>
-                          <CTableDataCell>{skip + index + 1}</CTableDataCell>
-                          <CTableDataCell className='detail-wrap text-left'>
-                            <div className='user-title'>
-                              <span>
-                                <i
-                                  className='fa fa-user'
-                                  aria-hidden='true'
-                                ></i>{' '}
-                              </span>
-                              <span
-                                className='view-link'>
-                                {item.fundRaiserInfo
-                                  ? [
-                                      item.fundRaiserInfo.first_name,
-                                      item.fundRaiserInfo.last_name,
-                                    ].join(' ')
-                                  : null}
-                              </span>
-                            </div>
-                            {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.email ? (
-                              <div>
-                                <span>
-                                  <i
-                                    className='fa fa-envelope'
-                                    aria-hidden='true'
-                                  />
-                                </span>{' '}
-                                <span className='view-link'>
-                                  {item.fundRaiserInfo?.email ?? '-'}
-                                </span>
-                              </div>
-                            ) : null}
-                            {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                              <div>
-                                <span>
-                                  <i
-                                    className='fa fa-envelope'
-                                    aria-hidden='true'
-                                  ></i>{' '}
-                                </span>
-                                <span>Paypal Email:</span>{' '}
-                                <span className='link-tile'>
-                                  {item.fundRaiserInfo.Donation.paypal_email ||
-                                    '-'}
-                                </span>
-                              </div>
-                            ) : null}
-                            {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                              <div>
-                                <span>
-                                  <i
-                                    className='fa fa-phone'
-                                    aria-hidden='true'
-                                  ></i>{' '}
-                                </span>
-                                <span>Paypal Mobile Number:</span>{' '}
-                                <span className='link-tile'>
-                                  {item.fundRaiserInfo.Donation.paypal_mobile ||
-                                    '-'}
-                                </span>
-                              </div>
-                            ) : null}
-                            {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                              <div className='text-capitalize'>
-                                <span>
-                                  <i
-                                    className='fa fa-id-card'
-                                    aria-hidden='true'
-                                  ></i>{' '}
-                                  Account number:
-                                </span>{' '}
-                                <span className='link-tile'>
-                                  {item.fundRaiserInfo.Donation
-                                    .account_number || '-'}
-                                </span>
-                              </div>
-                            ) : null}
-                            {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                              <div className='text-capitalize'>
-                                <span>
-                                  <i className='fa fa-route'></i>
-                                </span>
-                                <span>
-                                  <span>
-                                    <i
-                                      className='fa fa-link'
-                                      aria-hidden='true'
-                                    ></i>{' '}
-                                  </span>{' '}
-                                  Routing number:
-                                </span>{' '}
-                                <span className='link-tile'>
-                                  {item.fundRaiserInfo.Donation
-                                    .routing_number || '-'}
-                                </span>
-                              </div>
-                            ) : null}
-                            <div>Paypal onboarding <CIcon style={{color:item.fundRaiserInfo.Donation?.paypal_merchant_id ? '#23de44' :'#de2344'}} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
-                            <div>Stripe onboarding <CIcon style={{color: item.fundRaiserInfo.Donation?.account_id ? '#23de44' :'#de2344'}} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
-                          </CTableDataCell>
-                          <CTableDataCell className='text-left'>
-                            {item.direct_donation
-                              ? '-'
-                              : item.Project && item.Project.name}
-                          </CTableDataCell>
-                          <CTableDataCell className='text-left'>
-                            {item.direct_donation
-                              ? item.fundRaiserInfo &&
-                                [
+                    return (
+                      <CTableRow key={index}>
+                        <CTableDataCell>{skip + index + 1}</CTableDataCell>
+                        <CTableDataCell className='detail-wrap text-left'>
+                          <div className='user-title'>
+                            <span>
+                              <i
+                                className='fa fa-user'
+                                aria-hidden='true'
+                              ></i>{' '}
+                            </span>
+                            <span
+                              className='view-link'>
+                              {item.fundRaiserInfo
+                                ? [
                                   item.fundRaiserInfo.first_name,
                                   item.fundRaiserInfo.last_name,
                                 ].join(' ')
-                              : '-'}
-                          </CTableDataCell>
-                          <CTableDataCell>
-                            {item.amount
-                              ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(item.amount)
-                              : '$0.00'}
-                          </CTableDataCell>
-                          <CTableDataCell>
-                            {item.website_amount
-                              ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(item.website_amount)
-                              : '$0.00'}
-                          </CTableDataCell>
-                          <CTableDataCell>
-                            {item.payout_amount
-                              ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(item.payout_amount)
-                              : '$0.00'}
-                          </CTableDataCell>
-                          <CTableDataCell>
-                            {item.createdAt && (
-                              <div>
-                                {moment(item.createdAt).format( AppConfig.DEFAULT_DATE_FORMAT)}
-                              </div>
-                            )}
-                          </CTableDataCell>
-                          <CTableDataCell>
-                            {item.payment_by}
-                          </CTableDataCell>
-                          <CTableDataCell className='justify-content-center status-btn-wrap'>
-                            {(item.payment_by === 'stripe' || item.payout_succeed) && (
-                              <h5>
+                                : null}
+                            </span>
+                          </div>
+                          {item.fundRaiserInfo &&
+                            item.fundRaiserInfo.email ? (
+                            <div>
+                              <span>
+                                <i
+                                  className='fa fa-envelope'
+                                  aria-hidden='true'
+                                />
+                              </span>{' '}
+                              <span className='view-link'>
+                                {item.fundRaiserInfo?.email ?? '-'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {item.fundRaiserInfo &&
+                            item.fundRaiserInfo.Donation ? (
+                            <div>
+                              <span>
+                                <i
+                                  className='fa fa-envelope'
+                                  aria-hidden='true'
+                                ></i>{' '}
+                              </span>
+                              <span>Paypal Email:</span>{' '}
+                              <span className='link-tile'>
+                                {item.fundRaiserInfo.Donation.paypal_email ||
+                                  '-'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {item.fundRaiserInfo &&
+                            item.fundRaiserInfo.Donation ? (
+                            <div>
+                              <span>
+                                <i
+                                  className='fa fa-phone'
+                                  aria-hidden='true'
+                                ></i>{' '}
+                              </span>
+                              <span>Paypal Mobile Number:</span>{' '}
+                              <span className='link-tile'>
+                                {item.fundRaiserInfo.Donation.paypal_mobile ||
+                                  '-'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {item.fundRaiserInfo &&
+                            item.fundRaiserInfo.Donation ? (
+                            <div className='text-capitalize'>
+                              <span>
+                                <i
+                                  className='fa fa-id-card'
+                                  aria-hidden='true'
+                                ></i>{' '}
+                                Account number:
+                              </span>{' '}
+                              <span className='link-tile'>
+                                {item.fundRaiserInfo.Donation
+                                  .account_number || '-'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {item.fundRaiserInfo &&
+                            item.fundRaiserInfo.Donation ? (
+                            <div className='text-capitalize'>
+                              <span>
+                                <i className='fa fa-route'></i>
+                              </span>
+                              <span>
+                                <span>
+                                  <i
+                                    className='fa fa-link'
+                                    aria-hidden='true'
+                                  ></i>{' '}
+                                </span>{' '}
+                                Routing number:
+                              </span>{' '}
+                              <span className='link-tile'>
+                                {item.fundRaiserInfo.Donation
+                                  .routing_number || '-'}
+                              </span>
+                            </div>
+                          ) : null}
+                          <div>Paypal onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.paypal_merchant_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
+                          <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.account_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
+                        </CTableDataCell>
+                        <CTableDataCell className='text-left'>
+                          {item.direct_donation
+                            ? '-'
+                            : item.Project && item.Project.name}
+                        </CTableDataCell>
+                        <CTableDataCell className='text-left'>
+                          {item.direct_donation
+                            ? item.fundRaiserInfo &&
+                            [
+                              item.fundRaiserInfo.first_name,
+                              item.fundRaiserInfo.last_name,
+                            ].join(' ')
+                            : '-'}
+                        </CTableDataCell>
+                        <CTableDataCell>
+                          {item.amount
+                            ? new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(item.amount)
+                            : '$0.00'}
+                        </CTableDataCell>
+                        <CTableDataCell>
+                          {item.website_amount
+                            ? new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(item.website_amount)
+                            : '$0.00'}
+                        </CTableDataCell>
+                        <CTableDataCell>
+                          {item.payout_amount
+                            ? new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(item.payout_amount)
+                            : '$0.00'}
+                        </CTableDataCell>
+                        <CTableDataCell>
+                          {item.createdAt && (
+                            <div>
+                              {moment(item.createdAt).format(AppConfig.DEFAULT_DATE_FORMAT)}
+                            </div>
+                          )}
+                        </CTableDataCell>
+                        <CTableDataCell>
+                          {item.payment_by}
+                        </CTableDataCell>
+                        <CTableDataCell className='justify-content-center status-btn-wrap'>
+                          {(item.payment_by === 'stripe' || item.payout_succeed) && (
+                            <h5>
                               <CBadge color="success" size='xl' shape="rounded-pill">Paid</CBadge>
-                              </h5>
-                            )}
-                            {(item.payment_by === 'paypal' && !item.payout_succeed) && (
-                              
-                                <div className='custom-tooltip'>
-                                  <button
-                                    type='button'
-                                    onClick={() => {
-                                      this.toggle(
-                                        item.donation_id,
-                                        item.payout_amount,
-                                      );
-                                    }}
-                                    className='btn btn-black btn-sm deactive-btn'
-                                    id={`tooltipdeactive-${item.id}`}
-                                  >
-                                    Unpaid
-                                  </button>
-                                  <span className='custom-tooltiptext tooltip-left-project left-tool-tip'>
-                                    Click here to mark as paid
-                                  </span>
-                                </div>
-                             
-                            )}
-                          </CTableDataCell>
-                        </CTableRow>
-                      );
-                    })}
-                    {!isLoading && donationList.length === 0 && (
+                            </h5>
+                          )}
+                          {(item.payment_by === 'paypal' && !item.payout_succeed) && (
+
+                            <div className='custom-tooltip'>
+                              <button
+                                type='button'
+                                onClick={() => {
+                                  this.toggle(
+                                    item.donation_id,
+                                    item.payout_amount,
+                                  );
+                                }}
+                                className='btn btn-black btn-sm deactive-btn'
+                                id={`tooltipdeactive-${item.id}`}
+                              >
+                                Unpaid
+                              </button>
+                              <span className='custom-tooltiptext tooltip-left-project left-tool-tip'>
+                                Click here to mark as paid
+                              </span>
+                            </div>
+
+                          )}
+                        </CTableDataCell>
+                      </CTableRow>
+                    );
+                  })}
+                  {!isLoading && donationList.length === 0 && (
                     <CTableRow>
                       <CTableDataCell colSpan={'12'} className={'justify-content-center'}>
                         <div className='empty-search-section my-4'>

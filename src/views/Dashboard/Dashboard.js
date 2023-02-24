@@ -88,8 +88,8 @@ class Dashboard extends Component {
               </CardHeader>
               <CardBody className='amount-show-wrap'>
                 <Row>
-                  <Col xs='12' sm='6' lg='4'>
-                    <Card className='text-white  total-user'>
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white  total-user mb-2'>
                       <CardBody>
                         <div className='text-value'>
                           <span className='amount-value'>{dashboard.User}</span>
@@ -109,8 +109,8 @@ class Dashboard extends Component {
                       </div>
                     </Card>
                   </Col>
-                  <Col xs='12' sm='6' lg='4'>
-                    <Card className='text-white total-projects'>
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-projects mb-2'>
                       <CardBody>
                         <div className='text-value'>
                           <span className='amount-value'>
@@ -133,28 +133,226 @@ class Dashboard extends Component {
                     </Card>
                   </Col>
 
-                  <Col xs='12' sm='6' lg='4'>
-                    <Card className='text-white total-earning'>
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
                       <CardBody>
                         <div className='text-value'>
                           <span className='amount-value'>
                             {dashboard.TotalEarning
                               ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(dashboard.TotalEarning)
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.TotalEarning)
                               : '$0.00'}
                           </span>
                           <i className='fa fa-money pull-right fa-lg' />
                         </div>
-                        <div className='number-heading'>Total Earnings</div>
+                        <div className='number-heading'>Total All-time Revenue</div>
                       </CardBody>
-                      
+
                     </Card>
                   </Col>
 
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.todayEarning
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.todayEarning)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Today Revenue</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.weekEarning
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.weekEarning)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Week Revenue</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.monthEarning
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.monthEarning)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Month Revenue</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.yearEarning
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.yearEarning)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Year Revenue</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.avgTip
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.avgTip)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Average Tip</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.avgOneTimePayment
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.avgOneTimePayment)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Average One-Time payment</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.avgRecurringPayment
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.avgRecurringPayment)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Average Monthly payment</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.nextRecurringPayment
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.nextRecurringPayment)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Next Month Estimated Revenue</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+
+                  <Col xs='12' sm='4' lg='3'>
+                    <Card className='text-white total-earning mb-2'>
+                      <CardBody>
+                        <div className='text-value'>
+                          <span className='amount-value'>
+                            {dashboard.totalRaised
+                              ? new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(dashboard.totalRaised)
+                              : '$0.00'}
+                          </span>
+                          <i className='fa fa-money pull-right fa-lg' />
+                        </div>
+                        <div className='number-heading'>Total Raised</div>
+                      </CardBody>
+
+                    </Card>
+                  </Col>
+                  {/*
                   <Col sm={'6'}>
                     <Card>
                       <CardHeader>
@@ -193,6 +391,7 @@ class Dashboard extends Component {
                       </CardBody>
                     </Card>
                   </Col>
+                          */}
                 </Row>
               </CardBody>
             </Card>

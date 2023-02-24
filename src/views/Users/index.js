@@ -24,7 +24,9 @@ import Loader from '../../containers/Loader/Loader';
 import { logger } from '../../Helpers/Logger';
 import PaginationHelper from '../../Helpers/Pagination';
 import { ConfirmBox } from '../../Helpers/SweetAlert';
-import { frontUrl } from '../../Config/AppConfig';
+import { frontUrl, mainAppUrl } from '../../Config/AppConfig';
+import Button from 'react-bootstrap/Button';
+
 const queryString = require('query-string');
 
 class Users extends Component {
@@ -42,6 +44,8 @@ class Users extends Component {
       isLoading: true,
       searchByStatus: '',
       filter: '',
+      cur_order_field: 'createdAt',
+      cur_order_dir: 'desc'
     };
   }
 
@@ -145,7 +149,7 @@ class Users extends Component {
   };
 
   getUsers = async e => {
-    const { selectedPage, limit, search, searchByStatus, filter } = this.state;
+    const { selectedPage, limit, search, searchByStatus, filter, cur_order_field, cur_order_dir } = this.state;
     const res = await new ApiHelper().FetchFromServer(
       ApiRoutes.GETUSERS.service,
       ApiRoutes.GETUSERS.url,
@@ -157,11 +161,14 @@ class Users extends Component {
         search: search,
         searchByStatus: searchByStatus,
         filter: filter,
+        order_field: cur_order_field,
+        order_dir: cur_order_dir
       },
     );
     // console.log('res.data', res.data);
 
     if (res.data && res.data.success) {
+      /*
       for (let i = 0; i < res.data.data.length; i++) {
         let item = res.data.data[i];
         let total_projects = 0;
@@ -176,7 +183,7 @@ class Users extends Component {
           personal_donation = personal_donation + parseFloat(amt.payout_amount);
         }
         item.personalDonation = personal_donation;
-      }
+      }*/
       await this.setState({
         users: res.data.data,
         totalCount: res.data.totalCount,
@@ -334,7 +341,7 @@ class Users extends Component {
   handleFeaturedUser = async (e, id, rowPosition) => {
     const { target } = e;
     const { checked } = target;
-  
+
     this.setState({
       isFeatured: checked,
     });
@@ -347,7 +354,7 @@ class Users extends Component {
             ? 'Do you want to feature this user'
             : 'Do you want to Un-feature this user',
       });
-      
+
       if (!value) {
         return;
       }
@@ -381,6 +388,78 @@ class Users extends Component {
     }
     this.getUsers();
   };
+
+  onDelete = async (id) => {
+    try {
+      const { value } = await ConfirmBox({
+        title: 'Confirmation',
+        text: "Are you sure to delete user?"
+      });
+      if (!value) {
+        return;
+      }
+      if (value) {
+        // api to update featured project
+        const res = await new ApiHelper().FetchFromServer(
+          ApiRoutes.DELETEUSER.service,
+          ApiRoutes.DELETEUSER.url,
+          ApiRoutes.DELETEUSER.method,
+          ApiRoutes.DELETEUSER.authenticate,
+          undefined,
+          {
+            id: id
+          }
+        );
+        if (res.data.success) {
+          toast.success('User deleted successfully', {
+            position: toast.POSITION.TOP_RIGHT,
+          }
+          );
+        } else {
+          toast.error(res.data.message);
+        }
+      }
+    } catch (error) {
+      logger(error);
+    }
+    this.getUsers();
+  }
+
+  renderSort = (field) => {
+    if (this.state.cur_order_field == field) {
+      if (this.state.cur_order_dir == 'asc') {
+        return (<i className='fa fa-sort-asc' />);
+      } else {
+        return (<i className='fa fa-sort-desc' />);
+      }
+    } else
+      return (<i className='fa fa-sort' />)
+  }
+
+  onSort = (e) => {
+
+    let field = e.target.getAttribute('data-field');
+
+    if (field == null || field == undefined) {
+      field = e.target.parentNode.getAttribute('data-field');
+    }
+
+    let dir = 'asc';
+    if (this.state.cur_order_field == field) {
+      if (this.state.cur_order_dir == 'asc')
+        dir = 'desc';
+      else
+        dir = 'asc';
+    }
+
+    this.setState({
+      cur_order_field: field,
+      cur_order_dir: dir
+    });
+
+    setTimeout(() => { this.getUsers(); }, 50);
+
+  }
 
   render() {
     const {
@@ -497,16 +576,77 @@ class Users extends Component {
                 <thead>
                   <tr>
                     <th>S.no</th>
-                    <th className='text-left'>User Details</th>
-                    <th className='text-center'>Stripe Connected</th>
-                    <th className='text-center'>Paypal Connected</th>
-                    <th className='text-center'>Total Projects</th>
-                    <th className='text-center'>Project Donations</th>
-                    <th className='text-center'>Personal Donations</th>
-                    <th>Featured</th>
-                    <th>Featured Second Row</th>
-                    <th>Created Date</th>
-                    <th className='text-center'>Status</th>
+                    <th className='text-left'>Image</th>
+                    <th className='text-left'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='first_name'>
+                        <div>User Details</div>
+                        <div>
+                          {this.renderSort('first_name')}
+                        </div>
+                      </div>
+                    </th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='is_acc_updated'>
+                        <div>Stripe Connected</div>
+                        <div>
+                          {this.renderSort('is_acc_updated')}
+                        </div>
+                      </div></th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='is_paypal_connected'>
+                        <div>Paypal Connected</div>
+                        <div>
+                          {this.renderSort('is_paypal_connected')}
+                        </div>
+                      </div></th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='project_count'>
+                        <div>Total Projects</div>
+                        <div>
+                          {this.renderSort('project_count')}
+                        </div>
+                      </div></th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='total_pledged'>
+                        <div>Project Donations</div>
+                        <div>
+                          {this.renderSort('total_pledged')}
+                        </div>
+                      </div></th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='personal_donation'>
+                        <div>Personal Donations</div>
+                        <div>
+                          {this.renderSort('personal_donation')}
+                        </div>
+                      </div></th>
+                    <th>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='isFeatured'>
+                        <div>Featured</div>
+                        <div>
+                          {this.renderSort('isFeatured')}
+                        </div>
+                      </div></th>
+                    <th>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='is_featured_second'>
+                        <div>Featured Second Row</div>
+                        <div>
+                          {this.renderSort('is_featured_second')}
+                        </div>
+                      </div></th>
+                    <th><div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='createdAt'>
+                      <div>Created Date</div>
+                      <div>
+                        {this.renderSort('createdAt')}
+                      </div>
+                    </div></th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='isActive'>
+                        <div>Status</div>
+                        <div>
+                          {this.renderSort('isActive')}
+                        </div>
+                      </div></th>
                     <th className='text-center'>Action</th>
                   </tr>
                 </thead>
@@ -522,6 +662,9 @@ class Users extends Component {
                       return (
                         <tr key={index}>
                           <td>{skip + index + 1}</td>
+                          <td>
+                            <img src={item.avatar != null && item.avatar != "" ? mainAppUrl + item.avatar : mainAppUrl + "assets/img/default-user.png"} alt={item.first_name} class="avatar-img" />
+                          </td>
                           <td
                             className='detail-wrap text-left' >
                             {item.first_name ? (
@@ -559,7 +702,7 @@ class Users extends Component {
                             )}
                           </td>
                           <td>
-                            {item.Projects.length > 0 ? (
+                            {item.project_count > 0 ? (
                               <div
                                 className='view-link'
                                 onClick={() => {
@@ -571,30 +714,30 @@ class Users extends Component {
                               >
                                 <span></span>
 
-                                {item.Projects.length}
+                                {item.project_count}
                               </div>
                             ) : (
                               0
                             )}
                           </td>
                           <td>
-                            {item.totalAmount
+                            {item.total_pledged
                               ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(item.totalAmount)
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(item.total_pledged)
                               : '$0.00'}
                           </td>
                           <td>
-                            {item.personalDonation
+                            {item.personal_donation
                               ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(item.personalDonation)
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(item.personal_donation)
                               : '$0.00'}
                           </td>
                           <td>
@@ -706,6 +849,9 @@ class Users extends Component {
                               >
                                 {`Login to ${item.first_name}'s account`}{' '}
                               </UncontrolledTooltip>
+                              <Button variant="danger" size="sm" onClick={() => this.onDelete(item.id)}>
+                                <i className="fa fa-trash" style={{ color: 'white' }} />
+                              </Button>
                             </div>
                           </td>
                         </tr>

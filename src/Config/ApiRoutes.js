@@ -39,6 +39,12 @@ const ApiRoutes = {
     method: 'GET',
     authenticate: true,
   },
+  DELETEPROJECT: {
+    service: '/admin',
+    url: '/deleteProject',
+    method: 'POST',
+    authenticate: true,
+  },
   CHANGESTATUS: {
     service: '/admin',
     url: '/changestatus',
@@ -49,6 +55,12 @@ const ApiRoutes = {
     service: '/admin',
     url: '/getusers',
     method: 'GET',
+    authenticate: true,
+  },
+  DELETEUSER: {
+    service: '/admin',
+    url: '/deleteUser',
+    method: 'POST',
     authenticate: true,
   },
   UPDATE_USER_STATUS: {
@@ -105,13 +117,13 @@ const ApiRoutes = {
     method: 'get',
     authenticate: true,
   },
-  GET_CONTACTUS_LIST:{
+  GET_CONTACTUS_LIST: {
     service: "/admin",
     url: "/getContactusList",
     method: "GET",
     authenticate: true
   },
-  CHANGE_CONTACTUS_STAUS:{
+  CHANGE_CONTACTUS_STAUS: {
     service: "/admin",
     url: "/change-status",
     method: "POST",

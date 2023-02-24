@@ -24,6 +24,9 @@ import PaginationHelper from '../../Helpers/Pagination';
 import { ConfirmBox } from '../../Helpers/SweetAlert';
 import { backendUrl, frontUrl } from '../../Config/AppConfig';
 import { AppRoutes } from '../../Config/AppRoutes';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 const queryString = require('query-string');
 class Projects extends Component {
   constructor(props) {
@@ -43,6 +46,8 @@ class Projects extends Component {
       category: '',
       filter: '',
       isFeatured: false,
+      cur_order_field: 'createdAt',
+      cur_order_dir: 'desc',
     };
   }
 
@@ -217,7 +222,9 @@ class Projects extends Component {
       limit,
       search,
       searchByStatus,
-      category,filter
+      category, filter,
+      cur_order_field,
+      cur_order_dir,
     } = this.state;
     // console.log("did mount", selectedPage);
     const res = await new ApiHelper().FetchFromServer(
@@ -231,7 +238,9 @@ class Projects extends Component {
         search: search,
         searchByStatus,
         category,
-        filter
+        filter,
+        order_field: cur_order_field,
+        order_dir: cur_order_dir
       }
     );
 
@@ -244,6 +253,44 @@ class Projects extends Component {
     }
     // console.log("res*********", res);
   };
+
+
+
+  renderSort = (field) => {
+    if (this.state.cur_order_field == field) {
+      if (this.state.cur_order_dir == 'asc') {
+        return (<i className='fa fa-sort-asc' />);
+      } else {
+        return (<i className='fa fa-sort-desc' />);
+      }
+    } else
+      return (<i className='fa fa-sort' />)
+  }
+
+  onSort = (e) => {
+
+    let field = e.target.getAttribute('data-field');
+
+    if (field == null || field == undefined) {
+      field = e.target.parentNode.getAttribute('data-field');
+    }
+
+    let dir = 'asc';
+    if (this.state.cur_order_field == field) {
+      if (this.state.cur_order_dir == 'asc')
+        dir = 'desc';
+      else
+        dir = 'asc';
+    }
+
+    this.setState({
+      cur_order_field: field,
+      cur_order_dir: dir
+    });
+
+    setTimeout(() => { this.getprojectinfo(); }, 50);
+
+  }
 
   // componentDidUpdate = async (prevProps, prevState) => {
   //   if (prevProps.location.search !== this.props.location.search) {
@@ -357,6 +404,44 @@ class Projects extends Component {
     }
     this.getprojectinfo();
   };
+  onDelete = async (id) => {
+    try {
+      const { value } = await ConfirmBox({
+        title: 'Confirmation',
+        text: "Are you sure to delete project?"
+      });
+      if (!value) {
+        return;
+      }
+      let projectId = id;
+      let data = { projectId };
+      if (value) {
+        // api to update featured project
+        const res = await new ApiHelper().FetchFromServer(
+          ApiRoutes.DELETEPROJECT.service,
+          ApiRoutes.DELETEPROJECT.url,
+          ApiRoutes.DELETEPROJECT.method,
+          ApiRoutes.DELETEPROJECT.authenticate,
+          undefined,
+          {
+            id: id
+          }
+        );
+        if (res.data.success) {
+          toast.success('Project deleted successfully', {
+            position: toast.POSITION.TOP_RIGHT,
+          }
+          );
+        } else {
+          toast.error(res.data.message);
+        }
+      }
+    } catch (error) {
+      logger(error);
+    }
+    this.getprojectinfo();
+  }
+
   render() {
     const {
       isLoading,
@@ -504,15 +589,58 @@ class Projects extends Component {
                     <th>S.no</th>
                     <th className='text-center'>Image</th>
 
-                    <th className='text-left'>Project Details</th>
-                    <th>Donation Goal</th>
-                    <th>Donation Achieved</th>
-                    <th className='text-center'>Featured</th>
-                    <th>Created Date</th>
+                    <th className='text-left'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='name'>
+                        <div>Project Details</div>
+                        <div>
+                          {this.renderSort('name')}
+                        </div>
+                      </div>
+                    </th>
+                    <th>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='amount'>
+                        <div>Donation Goal</div>
+                        <div>
+                          {this.renderSort('amount')}
+                        </div>
+                      </div>
+                    </th>
+                    <th>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='total_pledged'>
+                        <div>Donation Achieved</div>
+                        <div>
+                          {this.renderSort('total_pledged')}
+                        </div>
+                      </div>
+                    </th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='isFeatured'>
+                        <div>Featured</div>
+                        <div>
+                          {this.renderSort('isFeatured')}
+                        </div>
+                      </div>
+                    </th>
+                    <th>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='createdAt'>
+                        <div>Created Date</div>
+                        <div>
+                          {this.renderSort('createdAt')}
+                        </div>
+                      </div>
+                    </th>
 
                     {/* <th>Project Caption</th> */}
                     {/* <th>Created Date</th> */}
-                    <th className='text-center'>Status</th>
+                    <th className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='status'>
+                        <div>Status</div>
+                        <div>
+                          {this.renderSort('status')}
+                        </div>
+                      </div>
+                    </th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -531,13 +659,12 @@ class Projects extends Component {
                             <div className='img-section'>
                               <img
                                 className='setimage'
-                                src={`${
-                                  item.thumbnail_image
-                                    ? [backendUrl, item.thumbnail_image]
-                                        .join('')
-                                        .trim()
-                                    : '/assets/img/user.svg'
-                                } `}
+                                src={`${item.thumbnail_image
+                                  ? [backendUrl, item.thumbnail_image]
+                                    .join('')
+                                    .trim()
+                                  : '/assets/img/user.svg'
+                                  } `}
                                 alt={item.Image}
                               />
                             </div>
@@ -561,7 +688,7 @@ class Projects extends Component {
                                   logger('Open User details');
                                   this.props.history.push(
                                     AppRoutes.USERS +
-                                      `?search=${item.User.first_name}`
+                                    `?search=${item.User.first_name}`
                                   );
                                 }}
                               >
@@ -578,7 +705,7 @@ class Projects extends Component {
                                   logger('Open User details');
                                   this.props.history.push(
                                     AppRoutes.USERS +
-                                      `?search=${item.User.email}`
+                                    `?search=${item.User.email}`
                                   );
                                 }}
                               >
@@ -655,22 +782,22 @@ class Projects extends Component {
                           <td>
                             {item.amount
                               ? new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                }).format(item.amount)
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }).format(item.amount)
                               : '$0.00'}
                           </td>
                           <td>
                             <div className='donation-raised-price'>
                               {item.total_pledged
                                 ? new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'USD',
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  }).format(item.total_pledged)
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                }).format(item.total_pledged)
                                 : '$0.00'}
                             </div>
                             {/* <Progress
@@ -687,18 +814,17 @@ class Projects extends Component {
                                 className='progress-bar'
                                 role='progressbar'
                                 style={{
-                                  width: `${
-                                    (Math.floor(item.total_pledged) /
-                                      item.amount) *
+                                  width: `${(Math.floor(item.total_pledged) /
+                                    item.amount) *
                                     100
-                                  }%`,
+                                    }%`,
                                 }}
                                 aria-valuenow={
                                   (item.total_pledged / item.amount) * 100
                                 }
                                 aria-valuemin='0'
                                 aria-valuemax='100'
-                                // id={`progress${item.id}`}
+                              // id={`progress${item.id}`}
                               ></div>
                               <UncontrolledTooltip
                                 target={`progress${item.id}`}
@@ -853,6 +979,11 @@ class Projects extends Component {
                               {`Delete ${item.fullName}`}
                             </UncontrolledTooltip>
                           </td> */}
+                          <td>
+                            <Button variant="danger" size="sm" onClick={() => this.onDelete(item.id)}>
+                              <i className="fa fa-trash" style={{ color: 'white' }} />
+                            </Button>
+                          </td>
                         </tr>
                       );
                     })
