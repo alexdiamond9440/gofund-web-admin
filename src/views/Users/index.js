@@ -663,7 +663,7 @@ class Users extends Component {
                         <tr key={index}>
                           <td>{skip + index + 1}</td>
                           <td>
-                            <img src={item.avatar != null && item.avatar != "" ? mainAppUrl + item.avatar : mainAppUrl + "assets/img/default-user.png"} alt={item.first_name} class="avatar-img" />
+                            <img src={item.avatar != null && item.avatar != "" ? (item.avatar.indexOf("http") === 0 ? item.avatar : mainAppUrl + item.avatar) : mainAppUrl + "assets/img/default-user.png"} alt={item.first_name} class="avatar-img" />
                           </td>
                           <td
                             className='detail-wrap text-left' >

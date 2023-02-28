@@ -9,6 +9,7 @@ const Setting = React.lazy(() => import("./views/Settings"));
 const Users = React.lazy(() => import("./views/Users"));
 const Projects = React.lazy(() => import("./views/project/project"));
 const Donations = React.lazy(() => import("./views/DonationsViaPaypal"));
+const MonthlyDonations = React.lazy(() => import("./views/MonthlyDonations"));
 const Comments = React.lazy(() => import("./views/Comments/comments"));
 const ContacusList = React.lazy(() => import('./views/Contactus'))
 
@@ -49,6 +50,12 @@ const routes = [
     exact: true,
     name: "Donations",
     component: Donations
+  },
+  {
+    path: AppRoutes.MONTHLY_DONATIONS,
+    exact: true,
+    name: "Monthly Payments",
+    component: MonthlyDonations
   },
   {
     path: AppRoutes.COMMENTS,

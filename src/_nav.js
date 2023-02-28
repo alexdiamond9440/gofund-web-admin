@@ -18,8 +18,13 @@ const navigation = [
   },
   {
     component: CNavItem,
-    name: "Payments",
+    name: "All Payments",
     to: AppRoutes.DONATIONS,
+  },
+  {
+    component: CNavItem,
+    name: "Monthly Payments",
+    to: AppRoutes.MONTHLY_DONATIONS,
   }
 ];
 

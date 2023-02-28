@@ -70,7 +70,7 @@ class DonationsViaPaypal extends Component {
       category: '',
       open: false,
       errors: {},
-      cur_order_field: 'createdAt',
+      cur_order_field: 'year_month',
       cur_order_dir: 'desc',
       profileModalShow: false,
     };
@@ -374,12 +374,11 @@ class DonationsViaPaypal extends Component {
     await this.setState({
       isLoading: true
     });
-
     const res = await new ApiHelper().FetchFromServer(
-      ApiRoutes.GET_DONATIONS.service,
-      ApiRoutes.GET_DONATIONS.url,
-      ApiRoutes.GET_DONATIONS.method,
-      ApiRoutes.GET_DONATIONS.authenticate,
+      ApiRoutes.GET_MONTHLY_DONATIONS.service,
+      ApiRoutes.GET_MONTHLY_DONATIONS.url,
+      ApiRoutes.GET_MONTHLY_DONATIONS.method,
+      ApiRoutes.GET_MONTHLY_DONATIONS.authenticate,
       {
         limit: limit,
         page: selectedPage,
@@ -500,178 +499,140 @@ class DonationsViaPaypal extends Component {
         <Col xs={'12'} lg={'12'}>
           <Card>
             <CardBody>
-              <div className='donation-list-header'>
-                <div className={'filter-block'}>
-                  <Form onSubmit={this.onSearch}>
-                    <Row>
-                      <Col lg='2' md='2' className='mb-0'>
-                        <FormGroup className='mb-0'>
-                          <Label className='label'>Search</Label>
-                          <InputGroup className='mb-2'>
-                            <input
-                              type='text'
-                              name='search'
-                              onChange={this.handleChange}
-                              className='form-control'
-                              aria-describedby='searchUser'
-                              placeholder='By project name'
-                              value={search}
-                            />
-                          </InputGroup>
-                        </FormGroup>
-                      </Col>
-                      <Col lg='2' md='2' className='mb-0'>
-                        <FormGroup className='mb-0'>
-                          <Label for='exampleSelect' className='label'>
-                            Status
-                          </Label>
-                          <Input
-                            type='select'
-                            name='searchByStatus'
-                            id='exampleSelect'
-                            value={searchByStatus || ''}
-                            onChange={this.handleSearchByStatus}
-                          >
-                            <option className='form-control' value={''}>
-                              All
-                            </option>
-                            <option value={'1'}>Paid</option>
-                            <option value={'0'}>Unpaid</option>
-                          </Input>
-                        </FormGroup>
-                      </Col>
-                      <Col lg='2' md='2' className='mb-0'>
-                        <FormGroup className='mb-0'>
-                          <Label for='searchPaymentBy' className='label'>
-                            Payment by
-                          </Label>
-                          <Input
-                            type='select'
-                            name='searchPaymentBy'
-                            id='searchPaymentBy'
-                            value={searchPaymentBy || ''}
-                            onChange={this.handleSearchPaymentBy}
-                          >
-                            <option className='form-control' value={''}>
-                              All
-                            </option>
-                            <option value='paypal'>Paypal</option>
-                            <option value='stripe'>Stripe</option>
-                          </Input>
-                        </FormGroup>
-                      </Col>
-                      <Col lg='2' md='2' className='mb-0'>
-                        <div className='filter-btn-wrap'>
-                          <Label className='height17 label' />
-                          <div className='form-group mb-0'>
-                            <span className='mr-2'>
-                              <button
-                                type='submit'
-                                className='btn theme-btn'
-                                id='Tooltip-1'
-                              >
-                                <i className='fa fa-search' />
-                              </button>
-                              <UncontrolledTooltip target='Tooltip-1'>
-                                Search
-                              </UncontrolledTooltip>
-                            </span>
-                            <span className='px-2'>
-                              <button
-                                type='button'
-                                className='btn btn-danger btn-black'
-                                id='Tooltip-2'
-                                onClick={this.onReset}
-                              >
-                                <i className='fa fa-refresh' />
-                              </button>
-                              <UncontrolledTooltip target={'Tooltip-2'}>
-                                Reset all filters
-                              </UncontrolledTooltip>
-                            </span>
-                          </div>
+              <div className={'filter-block'}>
+                <Form onSubmit={this.onSearch}>
+                  <Row>
+                    <Col lg='2' md='2' className='mb-0'>
+                      <FormGroup className='mb-0'>
+                        <Label className='label'>Search</Label>
+                        <InputGroup className='mb-2'>
+                          <input
+                            type='text'
+                            name='search'
+                            onChange={this.handleChange}
+                            className='form-control'
+                            aria-describedby='searchUser'
+                            placeholder='By project name'
+                            value={search}
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    </Col>
+                    <Col lg='2' md='2' className='mb-0'>
+                      <FormGroup className='mb-0'>
+                        <Label for='exampleSelect' className='label'>
+                          Status
+                        </Label>
+                        <Input
+                          type='select'
+                          name='searchByStatus'
+                          id='exampleSelect'
+                          value={searchByStatus || ''}
+                          onChange={this.handleSearchByStatus}
+                        >
+                          <option className='form-control' value={''}>
+                            All
+                          </option>
+                          <option value={'1'}>Paid</option>
+                          <option value={'0'}>Unpaid</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                    <Col lg='2' md='2' className='mb-0'>
+                      <FormGroup className='mb-0'>
+                        <Label for='searchPaymentBy' className='label'>
+                          Payment by
+                        </Label>
+                        <Input
+                          type='select'
+                          name='searchPaymentBy'
+                          id='searchPaymentBy'
+                          value={searchPaymentBy || ''}
+                          onChange={this.handleSearchPaymentBy}
+                        >
+                          <option className='form-control' value={''}>
+                            All
+                          </option>
+                          <option value='paypal'>Paypal</option>
+                          <option value='stripe'>Stripe</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                    <Col lg='2' md='2' className='mb-0'>
+                      <div className='filter-btn-wrap'>
+                        <Label className='height17 label' />
+                        <div className='form-group mb-0'>
+                          <span className='mr-2'>
+                            <button
+                              type='submit'
+                              className='btn theme-btn'
+                              id='Tooltip-1'
+                            >
+                              <i className='fa fa-search' />
+                            </button>
+                            <UncontrolledTooltip target='Tooltip-1'>
+                              Search
+                            </UncontrolledTooltip>
+                          </span>
+                          <span className='px-2'>
+                            <button
+                              type='button'
+                              className='btn btn-danger btn-black'
+                              id='Tooltip-2'
+                              onClick={this.onReset}
+                            >
+                              <i className='fa fa-refresh' />
+                            </button>
+                            <UncontrolledTooltip target={'Tooltip-2'}>
+                              Reset all filters
+                            </UncontrolledTooltip>
+                          </span>
                         </div>
-                      </Col>
-                    </Row>
-                  </Form>
-                </div>
-                <div className='export-block'>
-                  <Button
-                    onClick={this.exportExcelReport}
-                    disabled={isExporting}>
-                    {isExporting ? 'Exporting...' : 'Export Data'}
-                  </Button>
-                </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </Form>
               </div>
               <CTable
                 responsive
                 bordered>
                 <CTableHead>
                   <CTableRow>
-                    <CTableHeaderCell>S.no</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='justify-content-center'>Fundraiser Details</CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='text-left'>
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='project'>
-                        <div>Project</div>
+                    <CTableHeaderCell>No</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='year_month'>
+                        <div>Year/Month</div>
                         <div>
-                          {this.renderSort('project')}
+                          {this.renderSort('year_month')}
                         </div>
                       </div>
                     </CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='text-left'>
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='profile'>
-                        <div>Profile</div>
-                        <div>
-                          {this.renderSort('profile')}
-                        </div>
-                      </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >
+                    <CTableHeaderCell scope="col" className='text-center'>
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='amount'>
                         <div>Amount</div>
                         <div>
                           {this.renderSort('amount')}
                         </div>
                       </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >
+                    <CTableHeaderCell scope="col" className='text-center'>
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='website_amount'>
                         <div>Platform fee</div>
                         <div>
                           {this.renderSort('website_amount')}
                         </div>
                       </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='tip_percentage'>
-                        <div>Tip(%)</div>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='tip_amount'>
+                        <div>Tip Amount</div>
                         <div>
-                          {this.renderSort('tip_percentage')}
+                          {this.renderSort('tip_amount')}
                         </div>
                       </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='transferred_amount'>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payout_amount'>
                         <div>Transfer Amount</div>
                         <div>
-                          {this.renderSort('transferred_amount')}
-                        </div>
-                      </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='createdAt'>
-                        <div>Payment Date</div>
-                        <div>
-                          {this.renderSort('createdAt')}
-                        </div>
-                      </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" >
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payment_by'>
-                        <div>Payment By</div>
-                        <div>
-                          {this.renderSort('payment_by')}
-                        </div>
-                      </div></CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className='justify-content-center'>
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payment_status'>
-                        <div>Status</div>
-                        <div>
-                          {this.renderSort('payment_status')}
+                          {this.renderSort('payout_amount')}
                         </div>
                       </div></CTableHeaderCell>
                   </CTableRow>
@@ -689,126 +650,9 @@ class DonationsViaPaypal extends Component {
                       <CTableRow key={index}>
                         <CTableDataCell>{skip + index + 1}</CTableDataCell>
                         <CTableDataCell className='detail-wrap text-left'>
-                          <div className='user-title'>
-                            <span>
-                              <i
-                                className='fa fa-user'
-                                aria-hidden='true'
-                              ></i>{' '}
-                            </span>
-                            <span
-                              className='view-link'>
-                              {item.fundRaiserInfo
-                                ? [
-                                  item.fundRaiserInfo.first_name,
-                                  item.fundRaiserInfo.last_name,
-                                ].join(' ')
-                                : null}
-                            </span>
-                          </div>
-                          {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.email ? (
-                            <div>
-                              <span>
-                                <i
-                                  className='fa fa-envelope'
-                                  aria-hidden='true'
-                                />
-                              </span>{' '}
-                              <span className='view-link'>
-                                {item.fundRaiserInfo?.email ?? '-'}
-                              </span>
-                            </div>
-                          ) : null}
-                          {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                            <div>
-                              <span>
-                                <i
-                                  className='fa fa-envelope'
-                                  aria-hidden='true'
-                                ></i>{' '}
-                              </span>
-                              <span>Paypal Email:</span>{' '}
-                              <span className='link-tile'>
-                                {item.fundRaiserInfo.Donation.paypal_email ||
-                                  '-'}
-                              </span>
-                            </div>
-                          ) : null}
-                          {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                            <div>
-                              <span>
-                                <i
-                                  className='fa fa-phone'
-                                  aria-hidden='true'
-                                ></i>{' '}
-                              </span>
-                              <span>Paypal Mobile Number:</span>{' '}
-                              <span className='link-tile'>
-                                {item.fundRaiserInfo.Donation.paypal_mobile ||
-                                  '-'}
-                              </span>
-                            </div>
-                          ) : null}
-                          {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                            <div className='text-capitalize'>
-                              <span>
-                                <i
-                                  className='fa fa-id-card'
-                                  aria-hidden='true'
-                                ></i>{' '}
-                                Account number:
-                              </span>{' '}
-                              <span className='link-tile'>
-                                {item.fundRaiserInfo.Donation
-                                  .account_number || '-'}
-                              </span>
-                            </div>
-                          ) : null}
-                          {item.fundRaiserInfo &&
-                            item.fundRaiserInfo.Donation ? (
-                            <div className='text-capitalize'>
-                              <span>
-                                <i className='fa fa-route'></i>
-                              </span>
-                              <span>
-                                <span>
-                                  <i
-                                    className='fa fa-link'
-                                    aria-hidden='true'
-                                  ></i>{' '}
-                                </span>{' '}
-                                Routing number:
-                              </span>{' '}
-                              <span className='link-tile'>
-                                {item.fundRaiserInfo.Donation
-                                  .routing_number || '-'}
-                              </span>
-                            </div>
-                          ) : null}
-                          <div>Paypal onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.paypal_merchant_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
-                          <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.account_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
+                          {item.year_month}
                         </CTableDataCell>
-                        <CTableDataCell className='text-left'>
-                          {item.direct_donation
-                            ? '-'
-                            : item.Project && item.Project.name}
-                        </CTableDataCell>
-                        <CTableDataCell className='text-left'>
-                          {item.direct_donation
-                            ? item.fundRaiserInfo && (
-                              <a href={mainAppUrl + item.fundRaiserInfo.profileUrl} target="_blank">{
-                                [
-                                  item.fundRaiserInfo.first_name,
-                                  item.fundRaiserInfo.last_name,
-                                ].join(' ')}
-                              </a>)
-                            : '-'}
-                        </CTableDataCell>
-                        <CTableDataCell>
+                        <CTableDataCell className="text-right">
                           {item.amount
                             ? new Intl.NumberFormat('en-US', {
                               style: 'currency',
@@ -829,9 +673,14 @@ class DonationsViaPaypal extends Component {
                             : '$0.00'}
                         </CTableDataCell>
                         <CTableDataCell>
-                          {item.tip_percentage
-                            ? item.tip_percentage + "%"
-                            : '-'}
+                          {item.tip_amount
+                            ? new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(item.tip_amount)
+                            : '$0.00'}
                         </CTableDataCell>
                         <CTableDataCell>
                           {item.payout_amount
@@ -842,45 +691,6 @@ class DonationsViaPaypal extends Component {
                               maximumFractionDigits: 2,
                             }).format(item.payout_amount)
                             : '$0.00'}
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          {item.createdAt && (
-                            <div>
-                              {moment(item.createdAt).format(AppConfig.DEFAULT_DATE_FORMAT)}
-                            </div>
-                          )}
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          {item.payment_by}
-                        </CTableDataCell>
-                        <CTableDataCell className='justify-content-center status-btn-wrap'>
-                          {(item.payment_by === 'stripe' || item.payout_succeed) && (
-                            <h5>
-                              <CBadge color="success" size='xl' shape="rounded-pill">Paid</CBadge>
-                            </h5>
-                          )}
-                          {(item.payment_by === 'paypal' && !item.payout_succeed) && (
-
-                            <div className='custom-tooltip'>
-                              <button
-                                type='button'
-                                onClick={() => {
-                                  this.toggle(
-                                    item.donation_id,
-                                    item.payout_amount,
-                                  );
-                                }}
-                                className='btn btn-black btn-sm deactive-btn'
-                                id={`tooltipdeactive-${item.id}`}
-                              >
-                                Unpaid
-                              </button>
-                              <span className='custom-tooltiptext tooltip-left-project left-tool-tip'>
-                                Click here to mark as paid
-                              </span>
-                            </div>
-
-                          )}
                         </CTableDataCell>
                       </CTableRow>
                     );
@@ -936,7 +746,7 @@ class DonationsViaPaypal extends Component {
             <CButton color="primary">Save changes</CButton>
           </CModalFooter>
         </CModal>
-      </Row>
+      </Row >
     );
   }
 }

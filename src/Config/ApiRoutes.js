@@ -57,6 +57,12 @@ const ApiRoutes = {
     method: 'GET',
     authenticate: true,
   },
+  GETUSERPROFILE: {
+    service: '/admin',
+    url: '/get-user-profile',
+    method: 'GET',
+    authenticate: true,
+  },
   DELETEUSER: {
     service: '/admin',
     url: '/deleteUser',
@@ -102,6 +108,12 @@ const ApiRoutes = {
   GET_DONATIONS: {
     service: '/admin',
     url: '/donations',
+    method: 'GET',
+    authenticate: true,
+  },
+  GET_MONTHLY_DONATIONS: {
+    service: '/admin',
+    url: '/monthly-donations',
     method: 'GET',
     authenticate: true,
   },

@@ -8,5 +8,6 @@ export const AppRoutes = {
   PROJECT: "/project",
   COMMENTS: "/comments",
   DONATIONS: "/donations",
-  CONTACTUS:'/contact-us'
+  MONTHLY_DONATIONS: "/monthly-donations",
+  CONTACTUS: '/contact-us'
 };
