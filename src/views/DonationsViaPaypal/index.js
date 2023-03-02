@@ -641,7 +641,7 @@ class DonationsViaPaypal extends Component {
                       </div></CTableHeaderCell>
                     <CTableHeaderCell scope="col" >
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='tip_percentage'>
-                        <div>Tip(%)</div>
+                        <div>Tip</div>
                         <div>
                           {this.renderSort('tip_percentage')}
                         </div>
@@ -789,23 +789,24 @@ class DonationsViaPaypal extends Component {
                               </span>
                             </div>
                           ) : null}
-                          <div>Paypal onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.paypal_merchant_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
-                          <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.account_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
+                          <div>Paypal onboarding <CIcon style={{ color: item.fundRaiserInfo.is_paypal_connected ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
+                          <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.is_acc_updated ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
                         </CTableDataCell>
                         <CTableDataCell className='text-left'>
-                          {item.direct_donation
-                            ? '-'
-                            : item.Project && item.Project.name}
+                          {item['Project.name'] ? (
+                            <a href={mainAppUrl + item['Project.url']} target="_blank">{
+                              item['Project.name']}
+                            </a>)
+                            : '-'}
                         </CTableDataCell>
                         <CTableDataCell className='text-left'>
-                          {item.direct_donation
-                            ? item.fundRaiserInfo && (
-                              <a href={mainAppUrl + item.fundRaiserInfo.profileUrl} target="_blank">{
-                                [
-                                  item.fundRaiserInfo.first_name,
-                                  item.fundRaiserInfo.last_name,
-                                ].join(' ')}
-                              </a>)
+                          {item.fundRaiserInfo ? (
+                            <a href={mainAppUrl + item.fundRaiserInfo.profileUrl} target="_blank">{
+                              [
+                                item.fundRaiserInfo.first_name,
+                                item.fundRaiserInfo.last_name,
+                              ].join(' ')}
+                            </a>)
                             : '-'}
                         </CTableDataCell>
                         <CTableDataCell>
@@ -829,9 +830,14 @@ class DonationsViaPaypal extends Component {
                             : '$0.00'}
                         </CTableDataCell>
                         <CTableDataCell>
-                          {item.tip_percentage
-                            ? item.tip_percentage + "%"
-                            : '-'}
+                          {item.tip_amount
+                            ? new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }).format(item.tip_amount)
+                            : '$0.00'}
                         </CTableDataCell>
                         <CTableDataCell>
                           {item.payout_amount

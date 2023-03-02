@@ -70,7 +70,7 @@ class DonationsViaPaypal extends Component {
       category: '',
       open: false,
       errors: {},
-      cur_order_field: 'year_month',
+      cur_order_field: 'end_date',
       cur_order_dir: 'desc',
       profileModalShow: false,
     };
@@ -600,15 +600,29 @@ class DonationsViaPaypal extends Component {
                   <CTableRow>
                     <CTableHeaderCell>No</CTableHeaderCell>
                     <CTableHeaderCell scope="col" className='text-center'>
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='year_month'>
-                        <div>Year/Month</div>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='project_name'>
+                        <div>Project</div>
                         <div>
-                          {this.renderSort('year_month')}
+                          {this.renderSort('project_name')}
                         </div>
                       </div>
                     </CTableHeaderCell>
                     <CTableHeaderCell scope="col" className='text-center'>
-                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='amount'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payer_name'>
+                        <div>Payer</div>
+                        <div>
+                          {this.renderSort('payer_name')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='receiver_name'>
+                        <div>Receiver</div>
+                        <div>
+                          {this.renderSort('receiver_name')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='Amount'>
                         <div>Amount</div>
                         <div>
                           {this.renderSort('amount')}
@@ -616,7 +630,7 @@ class DonationsViaPaypal extends Component {
                       </div></CTableHeaderCell>
                     <CTableHeaderCell scope="col" className='text-center'>
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='website_amount'>
-                        <div>Platform fee</div>
+                        <div>Platform Fee</div>
                         <div>
                           {this.renderSort('website_amount')}
                         </div>
@@ -635,6 +649,20 @@ class DonationsViaPaypal extends Component {
                           {this.renderSort('payout_amount')}
                         </div>
                       </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='start_date'>
+                        <div>Start Date</div>
+                        <div>
+                          {this.renderSort('start_date')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='end_date'>
+                        <div>End Date</div>
+                        <div>
+                          {this.renderSort('end_date')}
+                        </div>
+                      </div></CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -650,7 +678,13 @@ class DonationsViaPaypal extends Component {
                       <CTableRow key={index}>
                         <CTableDataCell>{skip + index + 1}</CTableDataCell>
                         <CTableDataCell className='detail-wrap text-left'>
-                          {item.year_month}
+                          {item.project_name}
+                        </CTableDataCell>
+                        <CTableDataCell className='detail-wrap text-left'>
+                          {item.payer_name}
+                        </CTableDataCell>
+                        <CTableDataCell className='detail-wrap text-left'>
+                          {item.receiver_name}
                         </CTableDataCell>
                         <CTableDataCell className="text-right">
                           {item.amount
@@ -691,6 +725,12 @@ class DonationsViaPaypal extends Component {
                               maximumFractionDigits: 2,
                             }).format(item.payout_amount)
                             : '$0.00'}
+                        </CTableDataCell>
+                        <CTableDataCell className='detail-wrap text-left'>
+                          {moment(item.start_date).format('YYYY-MM-DD HH:mm:ss')}
+                        </CTableDataCell>
+                        <CTableDataCell className='detail-wrap text-left'>
+                          {moment(item.end_date).format('YYYY-MM-DD HH:mm:ss')}
                         </CTableDataCell>
                       </CTableRow>
                     );
