@@ -497,6 +497,7 @@ class Users extends Component {
                         </InputGroup>
                       </FormGroup>
                     </Col>
+                    {/*
                     <Col lg={'3'} md={'3'} className='mb-0'>
                       <FormGroup className='mb-0'>
                         <Label for='exampleSelect' className='label'>
@@ -516,7 +517,7 @@ class Users extends Component {
                           <option value={'0'}>Inactive</option>
                         </Input>
                       </FormGroup>
-                    </Col>
+    </Col>*/}
                     <Col lg={'3'} md={'3'} className='mb-0'>
                       <FormGroup className='mb-0'>
                         <Label for='exampleSelect' className='label'>
@@ -640,13 +641,14 @@ class Users extends Component {
                         {this.renderSort('createdAt')}
                       </div>
                     </div></th>
+                    {/*
                     <th className='text-center'>
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='isActive'>
                         <div>Status</div>
                         <div>
                           {this.renderSort('isActive')}
                         </div>
-                      </div></th>
+    </div></th>*/}
                     <th className='text-center'>Action</th>
                   </tr>
                 </thead>
@@ -786,8 +788,9 @@ class Users extends Component {
                               </div>
                             ) : null}
                           </td>
+                          {/*
                           <td className='text-center status-btn-wrap '>
-                            {item.isActive && item.isActive === true ? (
+                            {item.isActive == 1 || item.isActive == true ? (
                               <React.Fragment>
                                 <div className='custom-tooltip'>
                                   <button
@@ -827,7 +830,7 @@ class Users extends Component {
                               </React.Fragment>
                             )}
                           </td>
-
+                                  */}
                           <td className='text-center text-center'>
                             <div className='theme-action-btn-wrap custom-tooltip'>
                               <button
