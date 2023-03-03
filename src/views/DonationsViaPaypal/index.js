@@ -793,20 +793,21 @@ class DonationsViaPaypal extends Component {
                           <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.is_acc_updated ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
                         </CTableDataCell>
                         <CTableDataCell className='text-left'>
-                          {item['Project.name'] ? (
-                            <a href={mainAppUrl + item['Project.url']} target="_blank">{
-                              item['Project.name']}
-                            </a>)
-                            : '-'}
+                          {item.project_id != null
+                            ? (item['Project.name'] ? (
+                              <a href={mainAppUrl + item['Project.url']} target="_blank">{
+                                item['Project.name']}
+                              </a>) : '-') : '-'}
                         </CTableDataCell>
                         <CTableDataCell className='text-left'>
-                          {item.fundRaiserInfo ? (
-                            <a href={mainAppUrl + item.fundRaiserInfo.profileUrl} target="_blank">{
-                              [
-                                item.fundRaiserInfo.first_name,
-                                item.fundRaiserInfo.last_name,
-                              ].join(' ')}
-                            </a>)
+                          {item.project_id == null
+                            ? item.User && (
+                              <a href={mainAppUrl + item.User.profileUrl} target="_blank">{
+                                [
+                                  item.User.first_name,
+                                  item.User.last_name,
+                                ].join(' ')}
+                              </a>)
                             : '-'}
                         </CTableDataCell>
                         <CTableDataCell>

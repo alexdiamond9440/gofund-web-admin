@@ -54,7 +54,7 @@ class DonationsViaPaypal extends Component {
       amount: '',
       note: '',
       paymentMode: 'paypal',
-      searchPaymentBy: 'paypal',
+      searchPaymentBy: '',
       users: [],
       totalCount: 0,
       selectedPage: 1,
@@ -391,6 +391,24 @@ class DonationsViaPaypal extends Component {
     );
 
     if (res.data && res.data.success) {
+
+      const tmp = res.data.data.rows;
+      let donationList = [];
+
+      for (let p of tmp) {
+        let ed = moment(p.end_date);
+        let cd = moment();
+
+        let days_diff = cd.diff(ed, 'days');
+
+        p.is_active = true;
+        if (days_diff > 30) {
+          p.is_active = false;
+        }
+
+        donationList.push(p);
+      }
+
       await this.setState({
         donationList: res.data.data.rows,
         totalCount: res.data.data.count,
@@ -622,6 +640,13 @@ class DonationsViaPaypal extends Component {
                         </div>
                       </div></CTableHeaderCell>
                     <CTableHeaderCell scope="col" className='text-center'>
+                      <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='payment_by'>
+                        <div>Payment By</div>
+                        <div>
+                          {this.renderSort('payment_by')}
+                        </div>
+                      </div></CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className='text-center'>
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='Amount'>
                         <div>Amount</div>
                         <div>
@@ -675,16 +700,21 @@ class DonationsViaPaypal extends Component {
                   )}
                   {!isLoading && donationList?.map((item, index) => {
                     return (
-                      <CTableRow key={index}>
+                      <CTableRow key={index} className={item.is_active ? 'active-row' : 'inactive-row'}>
                         <CTableDataCell>{skip + index + 1}</CTableDataCell>
                         <CTableDataCell className='detail-wrap text-left'>
-                          {item.project_name}
+                          (
+                          <a href={mainAppUrl + item['project_url']} target="_blank">{item.project_name}
+                          </a>)
                         </CTableDataCell>
                         <CTableDataCell className='detail-wrap text-left'>
                           {item.payer_name}
                         </CTableDataCell>
                         <CTableDataCell className='detail-wrap text-left'>
                           {item.receiver_name}
+                        </CTableDataCell>
+                        <CTableDataCell className='detail-wrap text-left'>
+                          {item.payment_by}
                         </CTableDataCell>
                         <CTableDataCell className="text-right">
                           {item.amount
