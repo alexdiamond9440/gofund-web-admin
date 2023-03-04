@@ -619,7 +619,7 @@ class DonationsViaPaypal extends Component {
                     <CTableHeaderCell>No</CTableHeaderCell>
                     <CTableHeaderCell scope="col" className='text-center'>
                       <div className='d-flex justify-content-between cur-pointer' onClick={this.onSort} data-field='project_name'>
-                        <div>Project</div>
+                        <div>Project or Profile</div>
                         <div>
                           {this.renderSort('project_name')}
                         </div>
