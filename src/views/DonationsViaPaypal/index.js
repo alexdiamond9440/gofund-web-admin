@@ -54,7 +54,7 @@ class DonationsViaPaypal extends Component {
       amount: '',
       note: '',
       paymentMode: 'paypal',
-      searchPaymentBy: 'paypal',
+      searchPaymentBy: '',
       users: [],
       totalCount: 0,
       selectedPage: 1,
