@@ -789,8 +789,8 @@ class DonationsViaPaypal extends Component {
                               </span>
                             </div>
                           ) : null}
-                          <div>Paypal onboarding <CIcon style={{ color: item.fundRaiserInfo.is_paypal_connected ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
-                          <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.is_acc_updated ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
+                          <div>Paypal onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.paypal_merchant_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.paypal_merchant_id ? cilCheckCircle : cilMinus} /></div>
+                          <div>Stripe onboarding <CIcon style={{ color: item.fundRaiserInfo.Donation?.account_id ? '#23de44' : '#de2344' }} icon={item.fundRaiserInfo.Donation?.account_id ? cilCheckCircle : cilMinus} /></div>
                         </CTableDataCell>
                         <CTableDataCell className='text-left'>
                           {item.project_id != null
